@@ -8,10 +8,11 @@
 // @grant        none
 // ==/UserScript==
 
-window.setTimeout(execProcess, 3000);
+window.setTimeout(execProcess, 5000);
 
 function execProcess() {
-  var queue = document.getElementById("2886416");
-  console.log(queue);
-  //document.getelementsByClassName("");
+  var unassignedQueue = document.getElementById("2886414");
+  var assignedToMe = document.getElementById("2886418");
+  console.log(unassignedQueue);
+  console.log(assignedToMe);
 }
