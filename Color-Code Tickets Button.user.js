@@ -10,9 +10,16 @@
 
 window.setTimeout(execProcess, 5000);
 
+var unassignedQueue;
+
 function execProcess() {
-  var unassignedQueue = document.getElementById("2886414");
-  var assignedToMe = document.getElementById("2886418");
+  var queues = document.querySelectorAll('[dragclass=DragDragBox]');
+  queues.forEach(checkContent(element, "SD - open, unassigned (Incidents, Service Requests)"));
   console.log(unassignedQueue);
-  console.log(assignedToMe);
+}
+
+function checkContent(element, content) {
+  if ((((element.childNodes)[0]).childNodes)[0].textContent == content) {
+    unassigned = element.id;
+  }
 }
