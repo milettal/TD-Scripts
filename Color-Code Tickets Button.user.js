@@ -14,12 +14,12 @@ var unassignedQueue;
 
 function execProcess() {
   var queues = document.querySelectorAll('[dragclass=DragDragBox]');
-  queues.forEach(checkContent(element, "SD - open, unassigned (Incidents, Service Requests)"));
+  queues.forEach(checkContent);
   console.log(unassignedQueue);
 }
 
-function checkContent(element, content) {
-  if ((((element.childNodes)[0]).childNodes)[0].textContent == content) {
+function checkContent(element) {
+  if ((((element.childNodes)[0]).childNodes)[0].textContent ==  "SD - open, unassigned (Incidents, Service Requests)") {
     unassigned = element.id;
   }
 }
