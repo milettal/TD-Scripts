@@ -16,7 +16,6 @@ function items(){
     var htmlString = '<div style="Font-Size: 40px; text-align:center;">' + numitems + '</div>';
     var divv = document.createElement('div');
     divv.innerHTML = htmlString;
-    console.log(divv);
     var topp = document.getElementById('divContent');
     topp.style.padding = "0px";
     topp.parentNode.insertBefore(divv, topp);
