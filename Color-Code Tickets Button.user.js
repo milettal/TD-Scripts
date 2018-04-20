@@ -7,3 +7,11 @@
 // @match        https://oregonstate.teamdynamix.com/TDNext/Home/Desktop/Default.aspx*
 // @grant        none
 // ==/UserScript==
+
+window.setTimeout(execProcess, 1000);
+
+function execProcess() {
+  var queue = document.getElementById("2886416");
+  console.log(queue);
+  //document.getelementsByClassName("");
+}
