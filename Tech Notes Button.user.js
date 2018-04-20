@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Tech Notes Button on Edit Page
+// @name         Tech Notes Button
 // @namespace    http://tampermonkey.net/
 // @version      1.0
 // @description  Adds a button to add a new entry in the tech notes
@@ -37,11 +37,12 @@ if(date < 10){
     date = "0" + date;
 }
 
-var date_string = "" + (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear() + " " + time_string;
+var date_string = "" + (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear() + " " + time_string + "\n-Luke Miletta\n";
 
 // Form Where Internal Notes Exist
 var form = document.getElementById("attribute53162-grp");
 var text_field = form.childNodes;
+console.log(text_field);
 text_field.forEach(function(element){
     if(element.className == "js-ca"){
         text_field = element;
@@ -80,7 +81,7 @@ function click_form_button(){
         text_field.value = date_string;
     }
     else{
-        text_field.value = date_string + "\n\n" + text_field.value;
+        text_field.value = date_string + "\n" + text_field.value;
     }
 
 }
