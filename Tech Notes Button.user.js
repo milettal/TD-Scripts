@@ -5,6 +5,7 @@
 // @description  Adds a button to add a new entry in the tech notes
 // @author       Luke Miletta
 // @match        https://oregonstate.teamdynamix.com/TDNext/Apps/*/Tickets/Edit?TicketID=*
+// @match        https://oregonstate.teamdynamix.com/TDNext/Apps/*/Tickets/New?formId=*
 // @grant        none
 // ==/UserScript==
 
