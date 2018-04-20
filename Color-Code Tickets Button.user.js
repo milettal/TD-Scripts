@@ -8,7 +8,7 @@
 // @grant        none
 // ==/UserScript==
 
-window.setTimeout(execProcess, 1000);
+window.setTimeout(execProcess, 3000);
 
 function execProcess() {
   var queue = document.getElementById("2886416");
