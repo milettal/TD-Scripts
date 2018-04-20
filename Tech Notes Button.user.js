@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Tech Notes Button
+// @name         Tech Notes Button on Edit Page
 // @namespace    http://tampermonkey.net/
 // @version      1.0
 // @description  Adds a button to add a new entry in the tech notes
@@ -46,7 +46,18 @@ text_field.forEach(function(element){
         text_field = element;
     }
 });
-text_field = text_field.childNodes[1];
+console.log(text_field);
+text_field = text_field.childNodes;
+if(text_field[1]){
+    text_field.forEach(function(element){
+        if(element.id == "attribute53162"){
+            text_field = element;
+        }
+    });
+}
+else{
+    text_field = text_field[0];
+}
 
 // 1. Create the button
 var button1 = document.createElement("form-button");
