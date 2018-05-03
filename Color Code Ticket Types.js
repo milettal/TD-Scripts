@@ -86,7 +86,7 @@ function items(){
 
 function click_page_button(){
     // Listens for click of next page buttons
-    window.setTimeout(reee, 500);
+    window.setTimeout(reee, 750);
     function reee(){
         var next_page = document.getElementsByClassName("pager-link");
         for(i = 0; i < next_page.length; i++){
