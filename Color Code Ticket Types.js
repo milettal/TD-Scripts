@@ -59,7 +59,7 @@ function items(){
             }
        }
        else{
-           button1.setAttribute("style", "border-style: solid; padding: 5px; border-width: 1px; border-radius: 5px; a:");
+           button1.setAttribute("style", "border-style: solid; padding: 5px; border-width: 1px; border-radius: 5px;");
             for(i = 0; i < tickets.length; i++){
                 if(((tickets[i].children)[4].innerHTML) == "Open"){
                     tickets[i].setAttribute("style", "");
