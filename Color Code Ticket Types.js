@@ -115,16 +115,16 @@ function click_page_button(){
         else{
             for(i = 0; i < tickets.length; i++){
                 if(((tickets[i].children)[4].innerHTML) == "Open"){
-                    tickets[i].setAttribute("style", "background-color: grey;");
+                    tickets[i].setAttribute("style", "background-color: #d4fce6;");
                 }
                 else if(((tickets[i].children)[4].innerHTML) == "In Process"){
-                    tickets[i].setAttribute("style", "background-color: blue;");
+                    tickets[i].setAttribute("style", "background-color: #76a8f7;");
                 }
                 else if(((tickets[i].children)[4].innerHTML) == "New"){
-                    tickets[i].setAttribute("style", "background-color: red;");
+                    tickets[i].setAttribute("style", "background-color: #f25757;");
                 }
                 else if(((tickets[i].children)[4].innerHTML) == "Escalated - Internal"){
-                    tickets[i].setAttribute("style", "background-color: black;");
+                    tickets[i].setAttribute("style", "background-color: #e17efc;");
                 }
             }
         }
