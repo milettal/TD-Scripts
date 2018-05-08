@@ -12,14 +12,12 @@ function grab_id() {
     'use strict';
     var URL = window.location.href;
     var id = URL.split("TicketID=").pop();
-    console.log(id);
     return id;
 }
 
 var full = "\n\nIf you need any assistance, give us a call and reference ticket number " + grab_id() + ". Thanks!";
 
 var c = document.getElementsByClassName("js-template");
-var gen = c[18];
 var d;
 for(var i = 0; i < c.length; i++){
     console.log(i);
@@ -27,6 +25,5 @@ for(var i = 0; i < c.length; i++){
     if((c[i].innerHTML).includes("Generic"))
        d = c[i];
 }
-console.log(d);
 
 d.setAttribute("data-template", "Hi {{RequestorFirstName}},\n\n" + full + "\n\n{{TechnicianFullName}}\nIS Service Desk\nOregon State University\n\nTo respond, reply to this email or call 541-737-8787.");
