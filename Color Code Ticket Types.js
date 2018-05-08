@@ -89,7 +89,7 @@ function click_page_button(){
     window.setTimeout(reee, 750);
     function reee(){
         var next_page = document.getElementsByClassName("pager-link");
-        for(i = 0; i < next_page.length; i++){
+        for(var i = 0; i < next_page.length; i++){
             next_page[i].addEventListener ("click", click_page_button);
         }
 
