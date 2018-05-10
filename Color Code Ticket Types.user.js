@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Color Code Ticket Types
 // @namespace    http://tampermonkey.net/
-// @version      1.1
+// @version      1.2
 // @description  Color code the tickets based on types in the queue
 // @author       Luke Miletta
 // @match        https://oregonstate.teamdynamix.com/TDNext/Home/Desktop/*
@@ -11,6 +11,7 @@
 window.setTimeout(items, 1500);
 var open_box;
 var button1;
+var next_page;
 
 function items(){
     var boxes = document.getElementsByClassName("report-module");
@@ -20,7 +21,7 @@ function items(){
         }
     }
     var iii =(((open_box.childNodes)[0]).childNodes)[1];
-    
+
     // 1. Create the button
     button1 = document.createElement("i");
     button1.innerHTML = "Toggle Color";
@@ -97,6 +98,11 @@ function items(){
 function click_refresh_button(){
     window.setTimeout(ree, 750);
     function ree(){
+        var next_page = document.getElementsByClassName("pager-link");
+        for(i = 0; i < next_page.length; i++){
+            next_page[i].addEventListener ("click", click_page_button);
+        }
+
         var tickets = ((((((open_box.childNodes)[1]).childNodes)[1]).childNodes)[3]);
         tickets = tickets.children;
         if(button1.getAttribute("style") === "border-style: solid; padding: 5px; border-width: 1px; border-radius: 5px;"){
