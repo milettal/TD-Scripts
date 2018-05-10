@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Color Code Ticket Types
 // @namespace    http://tampermonkey.net/
-// @version      1.0
+// @version      1.1
 // @description  Color code the tickets based on types in the queue
 // @author       Luke Miletta
 // @match        https://oregonstate.teamdynamix.com/TDNext/Home/Desktop/*
@@ -20,8 +20,7 @@ function items(){
         }
     }
     var iii =(((open_box.childNodes)[0]).childNodes)[1];
-    console.log(iii);
-
+    
     // 1. Create the button
     button1 = document.createElement("i");
     button1.innerHTML = "Toggle Color";
@@ -81,6 +80,57 @@ function items(){
     var next_page = document.getElementsByClassName("pager-link");
     for(i = 0; i < next_page.length; i++){
         next_page[i].addEventListener ("click", click_page_button);
+    }
+
+    // Listens for click of refresh button
+    var n = document.getElementsByClassName('fa fa-refresh fa-lg refresh-module-icon gutter-left-xs');
+    for(i = 0; i < n.length; i++){
+        if((((n[i].parentNode.parentNode).childNodes)[0]).innerHTML.trim() == "SD - open, unassigned (Incidents, Service Requests)"){
+            var ref = n[i];
+            break;
+        }
+    }
+
+    ref.addEventListener("click", click_refresh_button, false);
+}
+
+function click_refresh_button(){
+    window.setTimeout(ree, 750);
+    function ree(){
+        var tickets = ((((((open_box.childNodes)[1]).childNodes)[1]).childNodes)[3]);
+        tickets = tickets.children;
+        if(button1.getAttribute("style") === "border-style: solid; padding: 5px; border-width: 1px; border-radius: 5px;"){
+            for(var i = 0; i < tickets.length; i++){
+                if(((tickets[i].children)[4].innerHTML) == "Open"){
+                    tickets[i].setAttribute("style", "");
+                }
+                else if(((tickets[i].children)[4].innerHTML) == "In Process"){
+                    tickets[i].setAttribute("style", "");
+                }
+                else if(((tickets[i].children)[4].innerHTML) == "New"){
+                    tickets[i].setAttribute("style", "");
+                }
+                else if(((tickets[i].children)[4].innerHTML) == "Escalated - Internal"){
+                    tickets[i].setAttribute("style", "");
+                }
+            }
+        }
+        else{
+            for(i = 0; i < tickets.length; i++){
+                if(((tickets[i].children)[4].innerHTML) == "Open"){
+                    tickets[i].setAttribute("style", "background-color: #d4fce6;");
+                }
+                else if(((tickets[i].children)[4].innerHTML) == "In Process"){
+                    tickets[i].setAttribute("style", "background-color: #76a8f7;");
+                }
+                else if(((tickets[i].children)[4].innerHTML) == "New"){
+                    tickets[i].setAttribute("style", "background-color: #f25757;");
+                }
+                else if(((tickets[i].children)[4].innerHTML) == "Escalated - Internal"){
+                    tickets[i].setAttribute("style", "background-color: #e17efc;");
+                }
+            }
+        }
     }
 }
 
