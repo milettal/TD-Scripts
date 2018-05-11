@@ -5,6 +5,7 @@
 // @description  Adds a Reftool button next to a person's name in TD
 // @author       Luke Miletta
 // @match        https://oregonstate.teamdynamix.com/TDNext/Apps/425/Tickets/TicketDet.aspx?TicketID=*
+// @match        https://oregonstate.teamdynamix.com/TDNext/Apps/425/Tickets/TicketDet?TicketID=*
 // @grant        none
 // ==/UserScript==
 
