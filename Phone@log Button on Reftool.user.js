@@ -64,7 +64,7 @@ function put_button(){
     // 1. Create the button
     var button1 = document.createElement("form-button");
     button1.setAttribute("type", "button");
-    button1.innerHTML = "New Phone@Log Ticket";
+    button1.innerHTML = "Phone@Log Generic";
     button1.setAttribute("class", "btn btn-default");
     button1.setAttribute("id", "phonelog-button");
 
