@@ -42,13 +42,11 @@ var date_string = "" + (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullY
 // Form Where Internal Notes Exist
 var form = document.getElementById("attribute53162-grp");
 var text_field = form.childNodes;
-console.log(text_field);
 text_field.forEach(function(element){
     if(element.className == "js-ca"){
         text_field = element;
     }
 });
-console.log(text_field);
 text_field = text_field.childNodes;
 if(text_field[1]){
     text_field.forEach(function(element){
