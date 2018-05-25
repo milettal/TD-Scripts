@@ -20,8 +20,6 @@ var full = "\n\nIf you need any assistance, give us a call and reference ticket 
 var c = document.getElementsByClassName("js-template");
 var d;
 for(var i = 0; i < c.length; i++){
-    console.log(i);
-    console.log(c[i].innerHTML);
     if((c[i].innerHTML).includes("Generic"))
        d = c[i];
 }
