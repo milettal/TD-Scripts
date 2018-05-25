@@ -14,7 +14,6 @@ var iii;
 function items(){
     //var boxes = document.querySelectorAll('[dragclass=DragDragBox]');
     var boxes = document.getElementsByClassName("report-module");
-    console.log(boxes);
     /*boxes.forEach(function(element){
         if((((element.childNodes)[0]).childNodes)[0].textContent == 'SD - open, unassigned (Incidents, Service Requests)'){
             iii = element.id;
