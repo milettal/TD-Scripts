@@ -59,7 +59,6 @@ function fill_form_generic(){
 
 function put_button(){
     var search = document.getElementById("search");
-    console.log(search);
 
     // 1. Create the button
     var button1 = document.createElement("form-button");
