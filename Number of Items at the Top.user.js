@@ -9,17 +9,34 @@
 // ==/UserScript==
 
 window.setTimeout(items, 1500);
+var iii;
 
 function items(){
-    var ticketTable = document.getElementsByClassName("ModuleContent")[1].childNodes[1].childNodes[3].childNodes;
+
+    var boxes = document.getElementsByClassName("report-module");
+
+    for (var i = 0; i < boxes.length; i++) {
+        if((((boxes[i].childNodes)[0]).childNodes)[0].textContent == 'SD - open, unassigned (Incidents, Service Requests)'){ //Get the ID of the ticket report window
+            iii = boxes[i].id;
+        }
+    }
+    var ticketTable = (document.getElementsByClassName("ModuleContent")[1].childNodes[1].childNodes[3].childNodes); //Get the list of all of the tickets
+
     var numTickets = 0;
-    for(var i = 0; i < ticketTable.length; i++){
+    for(i = 0; i < ticketTable.length; i++){
         if(ticketTable[i].nodeName == "TR") {
-            numTickets++;
+            numTickets++; //Count the tickets
         }
     }
 
-    var numTicketsText = "<br>" + numTickets + " tickets in the Queue";
+    var numTicketsText = "<br>" + numTickets + " Tickets in the Queue";
+
+
+    if(numTickets == 50 && (((((document.getElementById(iii).childNodes)[1]).childNodes)[3]).childNodes)[3].textContent.length > 0){ //Decide whether to use the TD ticket counter or our ticket counter
+        var numitems = (((((document.getElementById(iii).childNodes)[1]).childNodes)[3]).childNodes)[3].textContent;
+        numTicketsText = "<br>" + numitems + " tickets in the Queue";
+    }
+
     var htmlString = '<div style="Font-Size: 40px; text-align:center;">' + numTicketsText + '</div>';
     var divv = document.createElement('div');
     divv.innerHTML = htmlString;
