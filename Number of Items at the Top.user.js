@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Number of Items at the Top
 // @namespace    http://tampermonkey.net/
-// @version      1.2
+// @version      1.3
 // @description  Grabs the number of items in the queue and pastes it in the top
 // @author       Luke Miletta / Tyler Farnham
 // @match        https://oregonstate.teamdynamix.com/TDNext/Home/Desktop/*
@@ -34,7 +34,7 @@ function items(){
 
     if(numTickets == 50 && (((((document.getElementById(iii).childNodes)[1]).childNodes)[3]).childNodes)[3].textContent.length > 0){ //Decide whether to use the TD ticket counter or our ticket counter
         var numitems = (((((document.getElementById(iii).childNodes)[1]).childNodes)[3]).childNodes)[3].textContent;
-        numTicketsText = "<br>" + numitems + " tickets in the Queue";
+        numTicketsText = "<br>" + numitems + " in the Queue";
     }
 
     var htmlString = '<div style="Font-Size: 40px; text-align:center;">' + numTicketsText + '</div>';
