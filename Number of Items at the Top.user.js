@@ -2,45 +2,54 @@
 // @name         Number of Items at the Top
 // @namespace    http://tampermonkey.net/
 // @version      1.3
-// @description  Grabs the number of items in the queue and pastes it in the top
+// @description  Grabs the number of items in the queue and pastes it in the top. Note: It gets the number of tickets from the largest report
+// @             that you have on your desktop, so if you have multiple similarly sized reports than it will grab the largest one. Additionally,
+// @             if you have multiple reports over 50 tickets, then it will grab the number of tickets from the one that is closest to the top of your screen.
 // @author       Luke Miletta / Tyler Farnham
 // @match        https://oregonstate.teamdynamix.com/TDNext/Home/Desktop/*
 // @grant        none
 // ==/UserScript==
 
 window.setTimeout(items, 1500);
-var iii;
+var reportID;
 
 function items(){
+   var maxReport;
+   var currentReport;
+   var maxReportNumTickets = 0;
+   var currentReportNumTickets = 0;
+   var currentTicketTable;
+   var reports = document.getElementsByClassName("report-module");
+   for (var i = 0; i < reports.length; i++) {
+       currentReportNumTickets = 0;
+       currentReport = reports[i];
+       currentTicketTable = (currentReport).childNodes[1].childNodes[1].childNodes[3].childNodes;
+       for(var j = 0; j < currentTicketTable.length; j++){ //Find the largest
+           if(currentTicketTable[j].nodeName == "TR") {
+               currentReportNumTickets++; //Count the tickets
+           }
+       }
+       if(currentReportNumTickets > maxReportNumTickets){
+           maxReportNumTickets = currentReportNumTickets;
+           maxReport = currentReport;
+       }
+   }
 
-    var boxes = document.getElementsByClassName("report-module");
 
-    for (var i = 0; i < boxes.length; i++) {
-        if((((boxes[i].childNodes)[0]).childNodes)[0].textContent == 'SD - open, unassigned (Incidents, Service Requests)'){ //Get the ID of the ticket report window
-            iii = boxes[i].id;
-        }
-    }
-    var ticketTable = (document.getElementsByClassName("ModuleContent")[1].childNodes[1].childNodes[3].childNodes); //Get the list of all of the tickets
-
-    var numTickets = 0;
-    for(i = 0; i < ticketTable.length; i++){
-        if(ticketTable[i].nodeName == "TR") {
-            numTickets++; //Count the tickets
-        }
-    }
-
-    var numTicketsText = "<br>" + numTickets + " Tickets in the Queue";
+   var numTicketsText = "<br>" + maxReportNumTickets + " Tickets in the Queue";
 
 
-    if(numTickets == 50 && (((((document.getElementById(iii).childNodes)[1]).childNodes)[3]).childNodes)[3].textContent.length > 0){ //Decide whether to use the TD ticket counter or our ticket counter
-        var numitems = (((((document.getElementById(iii).childNodes)[1]).childNodes)[3]).childNodes)[3].textContent;
-        numTicketsText = "<br>" + numitems + " in the Queue";
-    }
+   if(maxReportNumTickets == 50 && ((((((maxReport.childNodes)[1]).childNodes)[3]).childNodes)[3].textContent.length > 0)){ //Decide whether to use the TD ticket counter or our ticket counter
+       var numitems = (((((maxReport.childNodes)[1]).childNodes)[3]).childNodes)[3].textContent;
+       numTicketsText = "<br>" + numitems + " in the Queue";
+   }
+   if(numitems || maxReportNumTickets){
+       var htmlString = '<div style="Font-Size: 40px; text-align:center;">' + numTicketsText + '</div>';
+       var divv = document.createElement('div');
+       divv.innerHTML = htmlString;
+       var topp = document.getElementById('divTabHeader');
+       topp.style.padding = "0px";
+       topp.parentNode.insertBefore(divv, topp);
 
-    var htmlString = '<div style="Font-Size: 40px; text-align:center;">' + numTicketsText + '</div>';
-    var divv = document.createElement('div');
-    divv.innerHTML = htmlString;
-    var topp = document.getElementById('divContent');
-    topp.style.padding = "0px";
-    topp.parentNode.insertBefore(divv, topp);
+   }
 }
