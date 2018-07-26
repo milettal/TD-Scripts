@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name         Number of Items at the Top
 // @namespace    http://tampermonkey.net/
-// @version      1.3
+// @version      1.4
 // @description  Grabs the number of items in the queue and pastes it in the top. Note: It gets the number of tickets from the largest report
 // @             that you have on your desktop, so if you have multiple similarly sized reports than it will grab the largest one. Additionally,
 // @             if you have multiple reports over 50 tickets, then it will grab the number of tickets from the one that is closest to the top of your screen.
-// @author       Luke Miletta / Tyler Farnham
+// @author       Tyler Farnham / Luke Miletta
 // @match        https://oregonstate.teamdynamix.com/TDNext/Home/Desktop/*
 // @grant        none
 // ==/UserScript==
@@ -23,15 +23,19 @@ function items(){
    for (var i = 0; i < reports.length; i++) {
        currentReportNumTickets = 0;
        currentReport = reports[i];
-       currentTicketTable = (currentReport).childNodes[1].childNodes[1].childNodes[3].childNodes;
-       for(var j = 0; j < currentTicketTable.length; j++){ //Find the largest
-           if(currentTicketTable[j].nodeName == "TR") {
-               currentReportNumTickets++; //Count the tickets
+       console.log(reports[i]);
+       if((currentReport).childNodes[1].childNodes[1].childNodes[3]){
+           currentTicketTable = (currentReport).childNodes[1].childNodes[1].childNodes[3].childNodes;
+
+           for(var j = 0; j < currentTicketTable.length; j++){ //Find the largest
+               if(currentTicketTable[j].nodeName == "TR") {
+                   currentReportNumTickets++; //Count the tickets
+               }
            }
-       }
-       if(currentReportNumTickets > maxReportNumTickets){
-           maxReportNumTickets = currentReportNumTickets;
-           maxReport = currentReport;
+           if(currentReportNumTickets > maxReportNumTickets){
+               maxReportNumTickets = currentReportNumTickets;
+               maxReport = currentReport;
+           }
        }
    }
 
