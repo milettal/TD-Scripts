@@ -23,7 +23,6 @@ function items(){
    for (var i = 0; i < reports.length; i++) {
        currentReportNumTickets = 0;
        currentReport = reports[i];
-       console.log(reports[i]);
        if((currentReport).childNodes[1].childNodes[1].childNodes[3]){
            currentTicketTable = (currentReport).childNodes[1].childNodes[1].childNodes[3].childNodes;
 
