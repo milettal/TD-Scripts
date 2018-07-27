@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name         Color Code Ticket Types
 // @namespace    http://tampermonkey.net/
-// @version      1.2
+// @version      1.3
 // @description  Color code the tickets based on types in the queue
-// @author       Luke Miletta
+// @author       Tyler Farnham / Luke Miletta
 // @match        https://oregonstate.teamdynamix.com/TDNext/Home/Desktop/*
 // @grant        none
 // ==/UserScript==
