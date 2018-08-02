@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name         Build Tracker TD Integration
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      0.7
 // @description  Testing Build tracker TD integration
-// @author       You
+// @author       Tyler Farnham
 // @match        https://oregonstate.teamdynamix.com/TDNext/Apps/425/Tickets/TicketDet?TicketID=*
 // @match        https://oregonstate.teamdynamix.com/TDNext/Apps/425/Tickets/TicketDet.aspx?TicketID=*
 // @match        https://oregonstate.teamdynamix.com/TDNext/Apps/425/Tickets/TicketDet?TicketID=*&BTI
@@ -18,23 +18,18 @@ var URL = window.location.href;
 if(URL.indexOf("&\stop") >= 0){
     return;
 }
-else if(URL.indexOf("?checkBuildTicketNumber") >=0){
-    window.setTimeout(checkBuildForTicketNumber, 20);
-}
-else if(URL.indexOf("&\BTI") >=0){
-    window.onload = insertButton();
-}
+
 else if(URL.indexOf("https://oregonstate.teamdynamix.com/TDNext/Apps/425/Tickets/TicketDet") >=0){
-    window.onload = sendToBuildTracker();
+    window.onload = checkForBuild();
 }
 else if (URL.indexOf("?checkInterviewTicketNumber") >=0){
-    window.setTimeout(checkForRealInterview, 20);
+    window.setTimeout(checkForRealInterview, 100);
 }
 else if (URL.indexOf("create?ticketNumber") >= 0){
-    window.setTimeout(fillInInterviewTicketNumber(URL), 100);
+    window.setTimeout(fillInInterviewTicketNumber(URL), 10);
 }
 
-function sendToBuildTracker(){
+function checkForBuild(){ //If there is the text "Interview #" (which is always created in the ticket when an interview is finalized) then it creates the button to go to the build, otherwise it makes the button that goes to the interview.
     if(document.body.innerHTML.toString().indexOf("Interview #") > -1){
         insertButton("Build");
         return;
@@ -42,36 +37,27 @@ function sendToBuildTracker(){
     else{
         insertButton("Interview");
         return;
-        //var ticketNumber = document.getElementById("thTicket_copyControl_btnCopyID").value
-        //window.location.href = ("https://tools.is.oregonstate.edu/build-tracker/builds/" + ticketNumber + "?checkTicketNumber" + ticketNumber);
     }
 }
-function checkBuildForTicketNumber(){
+/*function checkBuildForTicketNumber(){ //This function is now obsolete, but I am keeping it here for reference just in case I want to do something with it later.
     var URL = window.location.href.toString();
-    console.log("are we here?");
     var ticketNumber = URL.substring(URL.length-7, URL.length);
-    console.log(ticketNumber);
     if(document.body.innerHTML.toString().indexOf(ticketNumber) > -1){
-        console.log("This is the build for ticket " + ticketNumber + "!");
         window.location.href = ("https://oregonstate.teamdynamix.com/TDNext/Apps/425/Tickets/TicketDet?TicketID=" + ticketNumber + "&\BTI");
     }
     else{
-        console.log("At least we executed!");
         window.location.href = "https://oregonstate.teamdynamix.com/TDNext/Apps/425/Tickets/TicketDet?TicketID=" + ticketNumber + "&\stop";
     }
-}
+}*/
 function insertButton(buttonMode){
-    console.log("ITS A CHRISTMAS MIRACLE");
-    //var box = document.getElementById("pcRequestor_divPersonInfo");
-    var box = document.getElementById("divTabHeader");
-    //var name = (((((((box.childNodes)[1]).childNodes)[1]).childNodes)[3]).childNodes)[1];
+    var box = document.getElementById("divTabHeader"); //The buttons accross the top of the ticket page.
     var name = ((box.childNodes)[0])
     name = name.textContent;
     name = name.trim();
     var firstName = name.split(' ').slice(0, -1).join(' ');
     var lastName = name.split(' ').slice(-1).join(' ');
 
-    // 1. Create the button
+    // 1. Create the button with either the Build or Interview attributes
     var button1 = document.createElement("form-button");
     button1.setAttribute("type", "button");
     if(buttonMode == "Build"){
@@ -83,11 +69,11 @@ function insertButton(buttonMode){
     button1.setAttribute("class", "btn btn-primary btn-sm js-progress-button");
     button1.setAttribute("id", "BTButton");
 
-    // 2. Append somewhere
+    // 2. Append on the end end of the list of buttons that goes accross the top of the ticket page.
     ((box.childNodes)[1]).appendChild(button1);
 
     // 3. Add event handler
-    if(buttonMode == "Build"){
+    if(buttonMode == "Build"){ //Adds the correct button action based on whether or not there is a build for the ticket.
         button1.addEventListener ("click", clickBTButtonBuild);
     }
     else{
@@ -97,34 +83,31 @@ function insertButton(buttonMode){
 
 }
 
-function clickBTButtonBuild(){
-    var ticketNumber = document.getElementById("thTicket_copyControl_btnCopyID").value
+function clickBTButtonBuild(){ //Activated when the BT Button is pressed and there is a build for the ticket. Redirects to the corresponding build page.
+    var ticketNumber = document.getElementById("thTicket_copyControl_btnCopyID").value //Grabs the ticket number off of the ticket page.
     window.open("https://tools.is.oregonstate.edu/build-tracker/builds/" + ticketNumber);
 }
-function clickBTButtonInterview(){
-    var ticketNumber = document.getElementById("thTicket_copyControl_btnCopyID").value
+function clickBTButtonInterview(){//Activated when the BT Button is pressed and there is no build for the ticket. Redirects to the possible interview page for the ticket.
+    var ticketNumber = document.getElementById("thTicket_copyControl_btnCopyID").value; //Grabs the ticket number off of the end of the URL
     window.open("https://tools.is.oregonstate.edu/build-tracker/interviews/" + ticketNumber +"?checkInterviewTicketNumber" + ticketNumber);
 }
-function checkForRealInterview(){
-    var URL = window.location.href.toString();
-    console.log("are we here?");
-    var ticketNumber = URL.substring(URL.length-7, URL.length);
-    console.log(ticketNumber);
-    if(document.body.innerHTML.toString().indexOf(ticketNumber) > -1){
-        console.log("This is the interview for ticket " + ticketNumber + "!");
-    }
-    /*else{
-        console.log("At least we executed! Redirecting to Interview creation page");
-        window.location.href = "https://tools.is.oregonstate.edu/build-tracker/interviews/create?ticketNumber" + ticketNumber;
-    }*/
+function checkForRealInterview(){ //Checks to see if an interview exists for the ticket alread and, if there is no interview, it redirects to the "Create Interview" page.
+    window.setTimeout(function(){
+        var URL = window.location.href.toString();
+        var ticketNumber = URL.substring(URL.length-7, URL.length); //Grabs the ticket number off of the end of the URL
+        if(document.body.innerHTML.toString().indexOf(ticketNumber) > -1){
+        }
+        else{
+            window.location.href = "https://tools.is.oregonstate.edu/build-tracker/interviews/create?ticketNumber" + ticketNumber;
+
+        }
+    }, 75);
 }
 
-function fillInInterviewTicketNumber(URL){
+
+function fillInInterviewTicketNumber(URL){ //Adds the ticket number to the title of the Create Interview page that the user is redirected to.
     window.setTimeout((function(){
         var ticketNumber = URL.substring(URL.length-7, URL.length);
-
-        //document.getElementById("input_1").value = ticketNumber;
         document.getElementsByClassName("md-toolbar-tools").item(1).innerHTML = "Create New Interview For Ticket #" + ticketNumber;
-        //console.log(ticketTextbox);
     }), 100);
 }
