@@ -7,7 +7,7 @@
 // @match        https://oregonstate.teamdynamix.com/TDNext/Home/Desktop/*
 // @grant        none
 // ==/UserScript==
-window.setTimeout(items, 3000);
+window.setTimeout(items, 4000);
 var open_box;
 var button1;
 var next_page;
