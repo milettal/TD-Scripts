@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Color Code Ticket Types
 // @namespace    http://tampermonkey.net/
-// @version      1.6
+// @version      1.7
 // @description  Color code the tickets based on types in the queue
 // @author       Tyler Farnham / Luke Miletta
 // @match        https://oregonstate.teamdynamix.com/TDNext/Home/Desktop/*
@@ -45,7 +45,7 @@ function items(){
                 if(currentReportNumTickets > maxReportNumTickets){
                     maxReportNumTickets = currentReportNumTickets;
                     maxReport = currentReport;
-                    maxReport.childNodes[0].childNodes[1].childNodes[1].addEventListener("click", click_refresh_button, false);
+
                     whichReport = i;
                 }
             }
@@ -116,45 +116,22 @@ function items(){
     for(i = 0; i < next_page.length; i++){
         next_page[i].addEventListener ("click", click_page_button);
     }
-    // Listens for click of refresh button NEEDS TO BE FIXED - DOESN'T WORK
-    var n = document.getElementsByClassName('fa fa-refresh fa-lg refresh-module-icon gutter-left-xs');
-    for(i = 0; i < n.length; i++){
-        if(i = whichReport){
-            var ref = n[i];
-            break;
+    //Listens for click of refresh button
+    maxReport.childNodes[0].childNodes[1].childNodes[2].addEventListener("click", function(){window.setTimeout(waitUntilRefresh, 50)}, false);
+    function waitUntilRefresh(){
+        if(maxReport.childNodes[0].childNodes[1].childNodes[2].className != "fa fa-refresh fa-lg refresh-module-icon gutter-left-xs"){
+            window.setTimeout(waitUntilRefresh, 100);
+            return -1;
+        }
+        else{
+            click_form_button;
+            window.setTimeout(click_refresh_button(maxReport), 100);
+            return 1;
         }
     }
-    ref.addEventListener("click", click_refresh_button, false);
 }
-function click_refresh_button(){
 
-    var maxReport;
-    var currentReport;
-    var maxReportNumTickets = 0;
-    var currentReportNumTickets = 0;
-    var currentTicketTable;
-    var whichReport = 0;
-    var reports = document.getElementsByClassName("report-module");
-    for (var i = 0; i < reports.length; i++) {
-        currentReportNumTickets = 0;
-        currentReport = reports[i];
-        if((currentReport).childNodes[1].childNodes[1].childNodes[3]){
-            currentTicketTable = (currentReport).childNodes[1].childNodes[1].childNodes[3].childNodes;
-            for(var j = 0; j < currentTicketTable.length; j++){ //Find the largest
-                if(currentTicketTable[j].nodeName == "TR") {
-                    currentReportNumTickets++; //Count the tickets
-                }
-            }
-            if(currentReportNumTickets > maxReportNumTickets){
-                maxReportNumTickets = currentReportNumTickets;
-                maxReport = currentReport;
-                whichReport = i;
-            }
-        }
-    }
-    window.setTimeout(ree, 500);
-
-    function ree(){
+    function click_refresh_button(maxReport){
         var next_page = document.getElementsByClassName("pager-link");
         for(i = 0; i < next_page.length; i++){
             next_page[i].addEventListener ("click", click_page_button);
@@ -194,7 +171,6 @@ function click_refresh_button(){
             }
         }
     }
-}
 function click_page_button(){
     // Listens for click of next page buttons
     var maxReport;
