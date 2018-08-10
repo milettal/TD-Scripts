@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name         Auto-Sort By Status
 // @namespace    http://tampermonkey.net/
-// @version      1.0
+// @version      1.1
 // @description  Autosorts the SD - open tickets queue to by status
-// @author       Luke Miletta / Tyler Farnham
+// @author       Luke Miletta
 // @match        https://oregonstate.teamdynamix.com/TDNext/Home/Desktop*
 // @grant        GM_setValue
 // @grant        GM_getValue
