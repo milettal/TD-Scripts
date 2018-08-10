@@ -1,24 +1,29 @@
 // ==UserScript==
 // @name         Color Code Ticket Types
 // @namespace    http://tampermonkey.net/
-// @version      1.4
+// @version      1.6
 // @description  Color code the tickets based on types in the queue
 // @author       Tyler Farnham / Luke Miletta
 // @match        https://oregonstate.teamdynamix.com/TDNext/Home/Desktop/*
-// @grant        none
+// @grant        GM_getValue
+// @grant        GM_setValue
 // ==/UserScript==
-window.setTimeout(items, 3000);
+var tdRunCount = GM_getValue("tdRunCount", 0);
+if(tdRunCount == 0){
+    GM_setValue("tdRunCount", 1);
+
+}
+
+else{
+    window.setTimeout(items, 100);
+    GM_setValue("tdRunCount", 0);
+}
 var open_box;
 var button1;
 var next_page;
+
 function items(){
-    /*var boxes = document.getElementsByClassName("report-module");
-    for (var i = 0; i < boxes.length; i++) {
-        if((((boxes[i].childNodes)[0]).childNodes)[0].textContent == 'SD - open, unassigned (Incidents, Service Requests)'){
-            open_box = boxes[i];
-        }
-    }
-    */
+
     var maxReport;
     var currentReport;
     var maxReportNumTickets = 0;
@@ -26,21 +31,32 @@ function items(){
     var currentTicketTable;
     var reports = document.getElementsByClassName("report-module");
     var whichReport = 0;
-    for (var i = 0; i < reports.length; i++) {
+    for (var i = 0; i < reports.length; i++) { //Wait for all of the tickets in each report to load in, count them, and find the largest report.
         currentReportNumTickets = 0;
         currentReport = reports[i];
-        if((currentReport).childNodes[1].childNodes[1].childNodes[3]){
-            currentTicketTable = (currentReport).childNodes[1].childNodes[1].childNodes[3].childNodes;
-            for(var j = 0; j < currentTicketTable.length; j++){ //Find the largest
-                if(currentTicketTable[j].nodeName == "TR") {
-                    currentReportNumTickets++; //Count the tickets
+        if(currentReport.childNodes[1].childNodes[1]){
+            if((currentReport).childNodes[1].childNodes[1].childNodes[3]){
+                currentTicketTable = (currentReport).childNodes[1].childNodes[1].childNodes[3].childNodes;
+                for(var j = 0; j < currentTicketTable.length; j++){ //Find the largest
+                    if(currentTicketTable[j].nodeName == "TR") {
+                        currentReportNumTickets++; //Count the tickets
+                    }
+                }
+                if(currentReportNumTickets > maxReportNumTickets){
+                    maxReportNumTickets = currentReportNumTickets;
+                    maxReport = currentReport;
+                    maxReport.childNodes[0].childNodes[1].childNodes[1].addEventListener("click", click_refresh_button, false);
+                    whichReport = i;
                 }
             }
-            if(currentReportNumTickets > maxReportNumTickets){
-                maxReportNumTickets = currentReportNumTickets;
-                maxReport = currentReport;
-                whichReport = i;
+            else{
+                window.setTimeout(items, 100);
+                return;
             }
+        }
+        else{
+            window.setTimeout(items, 100);
+            return;
         }
     }
     var iii =(((maxReport.childNodes)[0]).childNodes)[1];
@@ -103,7 +119,7 @@ function items(){
     // Listens for click of refresh button NEEDS TO BE FIXED - DOESN'T WORK
     var n = document.getElementsByClassName('fa fa-refresh fa-lg refresh-module-icon gutter-left-xs');
     for(i = 0; i < n.length; i++){
-        if((((n[i].parentNode.parentNode).childNodes)[0]).innerHTML.trim() == "SD - open, unassigned (Incidents, Service Requests)"){
+        if(i = whichReport){
             var ref = n[i];
             break;
         }
@@ -111,11 +127,13 @@ function items(){
     ref.addEventListener("click", click_refresh_button, false);
 }
 function click_refresh_button(){
+
     var maxReport;
     var currentReport;
     var maxReportNumTickets = 0;
     var currentReportNumTickets = 0;
     var currentTicketTable;
+    var whichReport = 0;
     var reports = document.getElementsByClassName("report-module");
     for (var i = 0; i < reports.length; i++) {
         currentReportNumTickets = 0;
@@ -130,10 +148,12 @@ function click_refresh_button(){
             if(currentReportNumTickets > maxReportNumTickets){
                 maxReportNumTickets = currentReportNumTickets;
                 maxReport = currentReport;
+                whichReport = i;
             }
         }
     }
-    window.setTimeout(ree, 750);
+    window.setTimeout(ree, 500);
+
     function ree(){
         var next_page = document.getElementsByClassName("pager-link");
         for(i = 0; i < next_page.length; i++){
