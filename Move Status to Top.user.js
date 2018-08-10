@@ -12,7 +12,7 @@
 var URL = document.location.href;
 var StatusInput;
 var topElement;
-window.setTimeout(moveStatusFieldToTop, 1000);
+moveStatusFieldToTop();
 function moveStatusFieldToTop(){
     if(URL.indexOf("New") > 0){
 
