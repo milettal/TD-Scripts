@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Number of Items at the Top
 // @namespace    http://tampermonkey.net/
-// @version      1.6
+// @version      1.7
 // @description  Grabs the number of items in the queue and pastes it in the top. Note: It gets the number of tickets from the largest report
 // @             that you have on your desktop, so if you have multiple similarly sized reports than it will grab the largest one. Additionally,
 // @             if you have multiple reports over 50 tickets, then it will grab the number of tickets from the one that is closest to the top of your screen.
@@ -63,7 +63,7 @@ function items(){
     var numTicketsText = "<br>" + maxReportNumTickets + " Tickets in the Queue";
 
 
-    if(maxReportNumTickets == 50 && ((((((maxReport.childNodes)[1]).childNodes)[3]).childNodes)[3].textContent.length > 0)){ //Decide whether to use the TD ticket counter or our ticket counter
+    if(maxReportNumTickets == 50 && (maxReport.getElementsByClassName("TDPagerRow").length > 0)){ //Decide whether to use the TD ticket counter or our ticket counter
         var numitems = (((((maxReport.childNodes)[1]).childNodes)[3]).childNodes)[3].textContent;
         numTicketsText = "<br>" + numitems + " in the Queue";
     }
@@ -77,4 +77,34 @@ function items(){
         topp.parentNode.insertBefore(divv, topp);
 
     }
+
+    maxReport.childNodes[0].childNodes[1].childNodes[2].addEventListener("click", function(){window.setTimeout(waitUntilRefresh, 50)}, false);
+        function waitUntilRefresh(){
+        if(maxReport.childNodes[0].childNodes[1].childNodes[2].className != "fa fa-refresh fa-lg refresh-module-icon gutter-left-xs"){
+            window.setTimeout(waitUntilRefresh, 100);
+            return -1;
+        }
+        else{
+            window.setTimeout(ree(maxReport, maxReportNumTickets), 100);
+            return 1;
+        }
+    }
 }
+
+
+    function ree(maxReport, maxReportNumTickets){
+        var numTicketsText = "<br>" + maxReportNumTickets + " Tickets in the Queue";
+        if((maxReportNumTickets == 50) && (maxReport.getElementsByClassName("TDPagerRow").length > 0)){ //Decide whether to use the TD ticket counter or our ticket counter
+            var numitems = (((((maxReport.childNodes)[1]).childNodes)[3]).childNodes)[3].textContent;
+            numTicketsText = "<br>" + numitems + " in the Queue";
+        }
+        if(numitems || maxReportNumTickets){
+
+            var htmlString = '<div style="Font-Size: 40px; text-align:center;">' + numTicketsText + '</div>';
+            var divv = document.getElementById('form1').childNodes[27].childNodes[1]; 
+            divv.innerHTML = htmlString;
+            var topp = document.getElementById('divContent');
+            topp.style.padding = "0px";
+            topp.parentNode.insertBefore(divv, topp);
+        }
+    }
