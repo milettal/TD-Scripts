@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Number of Items at the Top
 // @namespace    http://tampermonkey.net/
-// @version      1.7
+// @version      1.8
 // @description  Grabs the number of items in the queue and pastes it in the top. Note: It gets the number of tickets from the largest report
 // @             that you have on your desktop, so if you have multiple similarly sized reports than it will grab the largest one. Additionally,
 // @             if you have multiple reports over 50 tickets, then it will grab the number of tickets from the one that is closest to the top of your screen.
