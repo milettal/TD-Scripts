@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Color Code Ticket Types
 // @namespace    http://tampermonkey.net/
-// @version      1.7
+// @version      1.71
 // @description  Color code the tickets based on types in the queue
 // @author       Tyler Farnham / Luke Miletta
 // @match        https://oregonstate.teamdynamix.com/TDNext/Home/Desktop/*
@@ -11,19 +11,21 @@
 var tdRunCount = GM_getValue("tdRunCount", 0);
 if(tdRunCount == 0){
     GM_setValue("tdRunCount", 1);
-
+    return;
 }
 
 else{
     window.setTimeout(items, 100);
     GM_setValue("tdRunCount", 0);
+    return;
 }
 var open_box;
 var button1;
 var next_page;
 
 function items(){
-
+    console.log("running items");
+    GM_setValue("tdRunCount", 0);
     var maxReport;
     var currentReport;
     var maxReportNumTickets = 0;
