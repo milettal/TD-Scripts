@@ -13,18 +13,20 @@
 // @grant        GM_getValue
 // @grant        GM_setValue
 // ==/UserScript==
+
 var tdRunCount = GM_getValue("tdRunCount", 0);
 if(tdRunCount == 0){
     GM_setValue("tdRunCount", 1);
-
+    return;
 }
 else{
-    window.setTimeout(items, 100);
     GM_setValue("tdRunCount", 0);
+    window.setTimeout(items, 100);
+    return;
 }
 var reportID;
-
 function items(){
+    GM_setValue("tdRunCount", 0);
     var maxReport;
     var currentReport;
     var maxReportNumTickets = 0;
@@ -37,6 +39,7 @@ function items(){
         currentReport = reports[i];
         if(currentReport.childNodes[1].childNodes[1]){
             if((currentReport).childNodes[1].childNodes[1].childNodes[3]){
+
                 currentTicketTable = (currentReport).childNodes[1].childNodes[1].childNodes[3].childNodes;
                 for(var j = 0; j < currentTicketTable.length; j++){ //Find the largest
                     if(currentTicketTable[j].nodeName == "TR") {
@@ -77,34 +80,44 @@ function items(){
         topp.parentNode.insertBefore(divv, topp);
 
     }
+    if(maxReport){
+        if(maxReport.childNodes[0]){
 
-    maxReport.childNodes[0].childNodes[1].childNodes[2].addEventListener("click", function(){window.setTimeout(waitUntilRefresh, 50)}, false);
-        function waitUntilRefresh(){
-        if(maxReport.childNodes[0].childNodes[1].childNodes[2].className != "fa fa-refresh fa-lg refresh-module-icon gutter-left-xs"){
-            window.setTimeout(waitUntilRefresh, 100);
-            return -1;
+            if(maxReport.childNodes[0].childNodes[1]){
+
+                maxReport.childNodes[0].childNodes[1].childNodes[2].addEventListener("click", function(){window.setTimeout(waitUntilRefresh, 50)}, false);
+                function waitUntilRefresh(){
+                    if(maxReport.childNodes[0].childNodes[1].childNodes[2].className != "fa fa-refresh fa-lg refresh-module-icon gutter-left-xs"){
+                        window.setTimeout(waitUntilRefresh, 100);
+                        return -1;
+                    }
+                    else{
+                        window.setTimeout(ree(maxReport, maxReportNumTickets), 100);
+                        return 1;
+                    }
+                }
+            }
+            else{window.setTimeout(items, 100)};
         }
-        else{
-            window.setTimeout(ree(maxReport, maxReportNumTickets), 100);
-            return 1;
-        }
+        else{window.setTimeout(items, 100)};
     }
+    else{window.setTimeout(items, 100)};
 }
 
 
-    function ree(maxReport, maxReportNumTickets){
-        var numTicketsText = "<br>" + maxReportNumTickets + " Tickets in the Queue";
-        if((maxReportNumTickets == 50) && (maxReport.getElementsByClassName("TDPagerRow").length > 0)){ //Decide whether to use the TD ticket counter or our ticket counter
-            var numitems = (((((maxReport.childNodes)[1]).childNodes)[3]).childNodes)[3].textContent;
-            numTicketsText = "<br>" + numitems + " in the Queue";
-        }
-        if(numitems || maxReportNumTickets){
-
-            var htmlString = '<div style="Font-Size: 40px; text-align:center;">' + numTicketsText + '</div>';
-            var divv = document.getElementById('form1').childNodes[27].childNodes[1]; 
-            divv.innerHTML = htmlString;
-            var topp = document.getElementById('divContent');
-            topp.style.padding = "0px";
-            topp.parentNode.insertBefore(divv, topp);
-        }
+function ree(maxReport, maxReportNumTickets){
+    var numTicketsText = "<br>" + maxReportNumTickets + " Tickets in the Queue";
+    if((maxReportNumTickets == 50) && (maxReport.getElementsByClassName("TDPagerRow").length > 0)){ //Decide whether to use the TD ticket counter or our ticket counter
+        var numitems = (((((maxReport.childNodes)[1]).childNodes)[3]).childNodes)[3].textContent;
+        numTicketsText = "<br>" + numitems + " in the Queue";
     }
+    if(numitems || maxReportNumTickets){
+
+        var htmlString = '<div style="Font-Size: 40px; text-align:center;">' + numTicketsText + '</div>';
+        var divv = document.getElementById('form1').childNodes[27].childNodes[1];
+        divv.innerHTML = htmlString;
+        var topp = document.getElementById('divContent');
+        topp.style.padding = "0px";
+        topp.parentNode.insertBefore(divv, topp);
+    }
+}
