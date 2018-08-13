@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Number of Items at the Top
 // @namespace    http://tampermonkey.net/
-// @version      1.81
+// @version      1.9
 // @description  Grabs the number of items in the queue and pastes it in the top. Note: It gets the number of tickets from the largest report
 // @             that you have on your desktop, so if you have multiple similarly sized reports than it will grab the largest one. Additionally,
 // @             if you have multiple reports over 50 tickets, then it will grab the number of tickets from the one that is closest to the top of your screen.
@@ -38,8 +38,7 @@ function items(){
         currentReportNumTickets = 0;
         currentReport = reports[i];
         if(currentReport.childNodes[1].childNodes[1]){
-            if((currentReport).childNodes[1].childNodes[1].childNodes[3]){
-
+            if((currentReport).childNodes[1].childNodes[1].childNodes.length > 1){
                 currentTicketTable = (currentReport).childNodes[1].childNodes[1].childNodes[3].childNodes;
                 for(var j = 0; j < currentTicketTable.length; j++){ //Find the largest
                     if(currentTicketTable[j].nodeName == "TR") {
@@ -52,10 +51,11 @@ function items(){
                     whichReport = i;
                 }
             }
-            else{
+            else if(i == reports.length){
                 window.setTimeout(items, 100);
                 return;
             }
+            else {continue;}
         }
         else{
             window.setTimeout(items, 100);
