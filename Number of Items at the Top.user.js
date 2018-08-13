@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Number of Items at the Top
 // @namespace    http://tampermonkey.net/
-// @version      1.9
+// @version      2.0
 // @description  Grabs the number of items in the queue and pastes it in the top. Note: It gets the number of tickets from the largest report
 // @             that you have on your desktop, so if you have multiple similarly sized reports than it will grab the largest one. Additionally,
 // @             if you have multiple reports over 50 tickets, then it will grab the number of tickets from the one that is closest to the top of your screen.
@@ -14,16 +14,16 @@
 // @grant        GM_setValue
 // ==/UserScript==
 
-/*var tdRunCount = GM_getValue("tdRunCount", 0);
+var tdRunCount = GM_getValue("tdRunCount", 0);
 if(tdRunCount == 0){
     GM_setValue("tdRunCount", 1);
     return;
 }
 else{
     GM_setValue("tdRunCount", 0);
-  */window.setTimeout(items, 100);/*
+  window.setTimeout(items, 100);
     return;
-}*/
+}
 var reportID;
 function items(){
     //GM_setValue("tdRunCount", 0);
