@@ -8,7 +8,7 @@
 // @grant    GM_getValue
 // @grant    GM_setValue
 // ==/UserScript==
-var tdRunCount = GM_getValue("tdRunCount", 0);
+/*var tdRunCount = GM_getValue("tdRunCount", 0);
 if(tdRunCount == 0){
   GM_setValue("tdRunCount", 1);
   return;
@@ -17,12 +17,13 @@ else{
   window.setTimeout(items, 100);
   GM_setValue("tdRunCount", 0);
   return;
-}
+}*/
+window.setTimeout(items, 100);
 var open_box;
 var button1;
 var next_page;
 function items(){
-  GM_setValue("tdRunCount", 0);
+  //GM_setValue("tdRunCount", 0);
   var maxReport;
   var currentReport;
   var maxReportNumTickets = 0;
