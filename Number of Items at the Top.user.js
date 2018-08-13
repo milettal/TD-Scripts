@@ -14,7 +14,7 @@
 // @grant        GM_setValue
 // ==/UserScript==
 
-var tdRunCount = GM_getValue("tdRunCount", 0);
+/*var tdRunCount = GM_getValue("tdRunCount", 0);
 if(tdRunCount == 0){
     GM_setValue("tdRunCount", 1);
     return;
@@ -23,7 +23,8 @@ else{
     GM_setValue("tdRunCount", 0);
   window.setTimeout(items, 100);
     return;
-}
+}*/
+window.setTimeout(items, 100);
 var reportID;
 function items(){
     //GM_setValue("tdRunCount", 0);
