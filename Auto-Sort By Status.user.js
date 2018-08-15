@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Auto-Sort By Status
 // @namespace    http://tampermonkey.net/
-// @version      1.2
+// @version      1.3
 // @description  Autosorts the SD - open tickets queue to by status
 // @author       Luke Miletta
 // @match        https://oregonstate.teamdynamix.com/TDNext/Home/Desktop*
@@ -16,11 +16,9 @@ function items(){
         if((((boxes[i].childNodes)[0]).childNodes)[0].textContent == 'SD - open, unassigned (Incidents, Service Requests)'){
 
             id = boxes[i].id;
-            console.log(id);
         }
     }
     boxes = document.getElementById(id);
-    console.log(boxes);
     if(!boxes){
         window.setTimeout(items, 100);
         return;
@@ -30,7 +28,6 @@ function items(){
         eventFire(boxes, 'click');
     }
     else{
-        console.log("Waiting");
         window.setTimeout(items, 100);
     }
 }
