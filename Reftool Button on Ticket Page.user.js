@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name         Reftool Button on Ticket Page
 // @namespace    http://tampermonkey.net/
-// @version      1.0
+// @version      1.2
 // @description  Adds a Reftool button next to a person's name in TD
-// @author       Luke Miletta
+// @author       Luke Miletta / Tyler Farnham
 // @match        https://oregonstate.teamdynamix.com/TDNext/Apps/425/Tickets/TicketDet.aspx?TicketID=*
 // @match        https://oregonstate.teamdynamix.com/TDNext/Apps/425/Tickets/TicketDet?TicketID=*
 // @grant        none
@@ -17,17 +17,21 @@ var firstName = name.split(' ').slice(0, -1).join(' ');
 var lastName = name.split(' ').slice(-1).join(' ');
 
 // 1. Create the button
-var button1 = document.createElement("form-button");
-button1.setAttribute("type", "button");
-button1.innerHTML = "User in Reftool";
-button1.setAttribute("class", "btn btn-primary btn-sm js-progress-button");
-button1.setAttribute("id", "form-button");
+var reftoolButton = document.createElement("form-button");
+reftoolButton.setAttribute("type", "button");
+reftoolButton.innerHTML = "User in Reftool";
+reftoolButton.setAttribute("class", "btn btn-primary btn-sm js-progress-button");
+reftoolButton.setAttribute("id", "form-button");
+reftoolButton.setAttribute("style", "background-color: rgb(96,125,139);");
 
 // 2. Append somewhere
-((box.childNodes)[1]).appendChild(button1);
+((box.childNodes)[1]).appendChild(reftoolButton);
 
 // 3. Add event handler
-button1.addEventListener ("click", click_reftool_button);
+reftoolButton.addEventListener ("click", click_reftool_button);
+
+var copyNameButton = document.getElementsByClassName("media-left")[0].childNodes[1];
+copyNameButton.addEventListener("click", navigator.clipboard.writeText(firstName + " " + lastName)); //Copies their name to your clipboard if you click on the little initial icon next to their name.
 
 // Function that handles click of form button
 function click_reftool_button(){
