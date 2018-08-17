@@ -1,8 +1,11 @@
 // ==UserScript==
 // @name         Build Tracker TD Integration
 // @namespace    http://tampermonkey.net/
-// @version      0.7
-// @description  Testing Build tracker TD integration
+// @version      1.1
+// @description  Adds a button on each ticket that opens a build tracker page for the ticket. 
+// @             If the ticket has a build associated with it then it opens the build page.
+// @             If it does not have a build associated with it, but has a non-finalized interview associated with it then it will open the non-finaliazed interview.
+// @             If there is no build or interview associated with the ticket then the button will open the "Create Interview" page of build tracker.
 // @author       Tyler Farnham
 // @match        https://oregonstate.teamdynamix.com/TDNext/Apps/425/Tickets/TicketDet?TicketID=*
 // @match        https://oregonstate.teamdynamix.com/TDNext/Apps/425/Tickets/TicketDet.aspx?TicketID=*
@@ -58,26 +61,27 @@ function insertButton(buttonMode){
     var lastName = name.split(' ').slice(-1).join(' ');
 
     // 1. Create the button with either the Build or Interview attributes
-    var button1 = document.createElement("form-button");
-    button1.setAttribute("type", "button");
+    var buildTrackerButton = document.createElement("form-button");
+    buildTrackerButton.setAttribute("type", "button");
     if(buttonMode == "Build"){
-        button1.innerHTML = "Open in Build Tracker";
+        buildTrackerButton.innerHTML = "Open in Build Tracker";
     }
     else{
-        button1.innerHTML = "Build Tracker Interview";
+        buildTrackerButton.innerHTML = "Build Tracker Interview";
     }
-    button1.setAttribute("class", "btn btn-primary btn-sm js-progress-button");
-    button1.setAttribute("id", "BTButton");
+    buildTrackerButton.setAttribute("class", "btn btn-primary btn-sm js-progress-button");
+    buildTrackerButton.setAttribute("id", "BTButton");
+    buildTrackerButton.setAttribute("style", "background-color: rgb(96,125,139);");
 
     // 2. Append on the end end of the list of buttons that goes accross the top of the ticket page.
-    ((box.childNodes)[1]).appendChild(button1);
+    ((box.childNodes)[1]).appendChild(buildTrackerButton);
 
     // 3. Add event handler
     if(buttonMode == "Build"){ //Adds the correct button action based on whether or not there is a build for the ticket.
-        button1.addEventListener ("click", clickBTButtonBuild);
+        buildTrackerButton.addEventListener ("click", clickBTButtonBuild);
     }
     else{
-        button1.addEventListener ("click", clickBTButtonInterview);
+        buildTrackerButton.addEventListener ("click", clickBTButtonInterview);
     }
     // Function that handles click of form button
 
