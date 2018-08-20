@@ -7,6 +7,8 @@
 // @match        https://oregonstate.teamdynamix.com/TDNext/Home/Desktop*
 // ==/UserScript==
 
+//THIS SCRIPT ONLY WORKS ON THE DEFAULT TD REPORT!!!!!
+
 var id;
 window.setTimeout(items, 100);
 function items(){
