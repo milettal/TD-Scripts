@@ -16,7 +16,6 @@ var goesOffHoldInput;
 var hasMoved = 0;
 
 
-
 var fieldList;
 var i;
 
@@ -34,8 +33,6 @@ function moveStatusFieldToTop(){
         }
         topElement = document.getElementById("divContent").childNodes[7].childNodes[6];
 
-        topElement.parentNode.insertBefore(StatusInput, topElement);
-        topElement.parentNode.insertBefore(goesOffHoldInput, topElement);
 
     }
 
@@ -50,10 +47,9 @@ function moveStatusFieldToTop(){
         }
         topElement = document.getElementById("divContent").childNodes[1].childNodes[2];
 
+    }
         topElement.parentNode.insertBefore(StatusInput, topElement);
 
         topElement.parentNode.insertBefore(goesOffHoldInput, topElement);
-        console.log(goesOffHoldInput);
-    }
 
 }
