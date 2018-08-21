@@ -5,14 +5,11 @@
 // @description Color code the tickets based on types in the queue
 // @author    Tyler Farnham / Luke Miletta
 // @match    https://oregonstate.teamdynamix.com/TDNext/Home/Desktop/*
-// @grant    GM_getValue
-// @grant    GM_setValue
 // ==/UserScript==
 
 window.setTimeout(items, 100);
-var open_box;
-var button1;
-var next_page;
+
+var toggleColorButton;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /*
@@ -27,23 +24,25 @@ var next_page;
 function items(){
     var maxReport = getMaxReport();
     if(!maxReport){
-        window.setTimeout(items, 100);
+        window.setTimeout(items, 100); //Loop the script again
         return;
     }
-    else if (maxReport === -1){return;}
+    else if (maxReport === -1){
+        return; //Break out of the script if it finds no reports
+    }
     var iii = (((maxReport.reportElement.childNodes)[0]).childNodes)[1];
     // 1. Create the button
-    button1 = document.createElement("i");
-    button1.innerHTML = "Toggle Color";
-    button1.setAttribute("class", "fa fa-lg gutter-left-xs");
-    button1.setAttribute("title", "Toggle Color");
-    button1.setAttribute("id", "toggle-button");
-    button1.setAttribute("style", "border-style: solid; padding: 5px; border-width: 1px; border-radius: 5px;");
+    toggleColorButton = document.createElement("i");
+    toggleColorButton.innerHTML = "Toggle Color";
+    toggleColorButton.setAttribute("class", "fa fa-lg gutter-left-xs");
+    toggleColorButton.setAttribute("title", "Toggle Color");
+    toggleColorButton.setAttribute("id", "toggle-button");
+    toggleColorButton.setAttribute("style", "border-style: solid; padding: 5px; border-width: 1px; border-radius: 5px;");
     // 2. Append somewhere
-    iii.appendChild(button1);
-    iii.insertBefore(button1, iii.firstChild);
+    iii.appendChild(toggleColorButton);
+    iii.insertBefore(toggleColorButton, iii.firstChild);
     // 3. Add event handler
-    button1.addEventListener ("click", function(){click_form_button(maxReport)});
+    toggleColorButton.addEventListener ("click", function(){click_form_button(maxReport)});
     // Function that handles click of form button
     // Listens for click of next page buttons
     var next_page = document.getElementsByClassName("pager-link");
@@ -88,7 +87,7 @@ function click_refresh_button(maxReport){
     }
     var tickets = ((((((maxReport.reportElement.childNodes)[1]).childNodes)[1]).childNodes)[3]);
     tickets = tickets.children;
-    if(button1.getAttribute("style") === "border-style: solid; padding: 5px; border-width: 1px; border-radius: 5px;"){
+    if(toggleColorButton.getAttribute("style") === "border-style: solid; padding: 5px; border-width: 1px; border-radius: 5px;"){
         return;
     }
     else{
@@ -121,7 +120,7 @@ function click_page_button(){
     }
     var tickets = ((((((maxReport.reportElement.childNodes)[1]).childNodes)[1]).childNodes)[3]);
     tickets = tickets.children;
-    if(button1.getAttribute("style") === "border-style: solid; padding: 5px; border-width: 1px; border-radius: 5px;"){ //If the tickets are colored already then remove the coloring on them.
+    if(toggleColorButton.getAttribute("style") === "border-style: solid; padding: 5px; border-width: 1px; border-radius: 5px;"){ //If the tickets are colored already then remove the coloring on them.
         removeColors(tickets);
     }
     else{
@@ -223,14 +222,14 @@ function getMaxReport(){
 
 function click_form_button(maxReport){
     var i;
-    var tickets = ((((((maxReport.reportElement.childNodes)[1]).childNodes)[1]).childNodes)[3]);
-    tickets = tickets.children;
-    if(button1.getAttribute("style") == "border-style: solid; padding: 5px; border-width: 1px; border-radius: 5px;"){
-        button1.setAttribute("style", "border-style: solid; padding: 5px; border-width: 1px; border-radius: 5px; background-color: #2b2b2b; color: #f5f5f5;");
+    var tickets = ((((((maxReport.reportElement.childNodes)[1]).childNodes)[1]).childNodes)[3]);//Gets the element that holds all of the tickets
+    tickets = tickets.children; //The children of that element are the tickets themselves. This is now an array of tickets.
+    if(toggleColorButton.getAttribute("style") == "border-style: solid; padding: 5px; border-width: 1px; border-radius: 5px;"){ //If the button is not pressed then press it and set the colors
+        toggleColorButton.setAttribute("style", "border-style: solid; padding: 5px; border-width: 1px; border-radius: 5px; background-color: #2b2b2b; color: #f5f5f5;");
         setColors(tickets);
     }
     else{
-        button1.setAttribute("style", "border-style: solid; padding: 5px; border-width: 1px; border-radius: 5px;");
+        toggleColorButton.setAttribute("style", "border-style: solid; padding: 5px; border-width: 1px; border-radius: 5px;"); //If the button is pressed then un-press it and remove the colors.
         removeColors(tickets);
     }
 }
