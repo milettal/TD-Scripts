@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Duo Reactivation Ticket Button on Reftool
 // @namespace    http://tampermonkey.net/
-// @version      1.0
+// @version      1.1
 // @description  Adds a button to create a new duo reactivation ticket with the appropriate fields filled out
 // @author       Zachary Morello
 // @match        https://tools.is.oregonstate.edu/reftool2/*
@@ -43,6 +43,8 @@ function fill_form_duo_reactivation(){
 	technotes.innerText = "Instructed customer to go to duo.oregonstate.edu, had them click 'reactivate device' and walked them through the reactivation process";
 	var duosupportitem = document.getElementById("attribute74632Choice183929");
 	duosupportitem.value = "true";
+	//Support item is still valid but to prevent confusion I set it to be visually checked
+    	duosupportitem.checked =true;
 }
 
 function put_button(){
