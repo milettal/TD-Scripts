@@ -1,21 +1,47 @@
 // ==UserScript==
 // @name         Duo Reactivation Ticket Button on Reftool
 // @namespace    http://tampermonkey.net/
-// @version      1.1
+// @version      2.0
 // @description  Adds a button to create a new duo reactivation ticket with the appropriate fields filled out
 // @author       Zachary Morello
 // @match        https://tools.is.oregonstate.edu/reftool2/*
+// @include      https://tools.is.oregonstate.edu/reftool2/*
 // @match        https://oregonstate.teamdynamix.com/TDNext/Apps/425/Tickets/New?formId=39063&RequestorUID=de751dc3-eeb7-e611-80cd-000d3a13db68&/duo-reactivation
+// @include      https://oregonstate.teamdynamix.com/TDNext/Apps/425/Tickets/New?formId=39063*
 // @grant        none
 // ==/UserScript==
 
+var UID = "de751dc3-eeb7-e611-80cd-000d3a13db68";
 var URL = window.location.href;
+
+
 if(URL.indexOf("tools.is.oregonstate.edu/reftool2/") >=0){
-    window.setTimeout(put_button, 750);
+    try{
+        window.setTimeout(put_button, 1500);
+    }
+    catch(TypeError){
+        window.setTimeout(put_button, 1500);
+    }
+
 }
 else if(URL.indexOf("&/duo-reactivation") >=0){
     window.setTimeout(fill_form_duo_reactivation, 500);
 }
+
+setInterval(ScanForUID,50);
+
+function ScanForUID(){
+    if(document.getElementById("account-details") != null) {
+        var open_tickets = document.getElementById("goto-tickets");
+        var parent = open_tickets.parentNode;
+        var href = parent.children[2].href;
+        console.log("UID = ",href.split("UID=")[1]);
+        UID = href.split("UID=")[1];
+
+    }
+}
+
+
 
 function fill_form_duo_reactivation(){
     //var form = document.getElementById("select2-chosen-11");
@@ -46,8 +72,8 @@ function fill_form_duo_reactivation(){
 	//Support item is still valid but to prevent confusion I set it to be visually checked
     	duosupportitem.checked =true;
 }
-
 function put_button(){
+    //await(100);
     var search = document.getElementById("search");
 
     // 1. Create the button
@@ -65,7 +91,7 @@ function put_button(){
 
     // Function that handles click of form button
     function click_reactivation_button(){
-        var url = "https://oregonstate.teamdynamix.com/TDNext/Apps/425/Tickets/New?formId=39063&RequestorUID=de751dc3-eeb7-e611-80cd-000d3a13db68&/duo-reactivation";
+        var url = "https://oregonstate.teamdynamix.com/TDNext/Apps/425/Tickets/New?formId=39063&RequestorUID="+UID+"&/duo-reactivation";
         window.open(url, '_blank');
     }
 
