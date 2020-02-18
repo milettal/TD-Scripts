@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Duo Reactivation Ticket Button on Reftool
 // @namespace    http://tampermonkey.net/
-// @version      2.0
+// @version      2.0.1
 // @description  Adds a button to create a new duo reactivation ticket with the appropriate fields filled out
 // @author       Zachary Morello
 // @match        https://tools.is.oregonstate.edu/reftool2/*
@@ -27,9 +27,12 @@ if(URL.indexOf("tools.is.oregonstate.edu/reftool2/") >=0){
 else if(URL.indexOf("&/duo-reactivation") >=0){
     window.setTimeout(fill_form_duo_reactivation, 500);
 }
-
+//Search for UID every 0.5 seconds
 setInterval(ScanForUID,50);
 
+/*
+***Finds the User ID for the currently searched person
+*/
 function ScanForUID(){
     if(document.getElementById("account-details") != null) {
         var open_tickets = document.getElementById("goto-tickets");
@@ -44,10 +47,6 @@ function ScanForUID(){
 
 
 function fill_form_duo_reactivation(){
-    //var form = document.getElementById("select2-chosen-11");
-    //form.innerText = "Duo Support";
-	//var groups = form.getElementsByTagName("optgroup");
-	//groups[4].setAttribute("selected","selected");
     var status = document.getElementById("attribute1306");
     status = status.children;
     for(var i=0; i<status.length;i++){
@@ -68,12 +67,19 @@ function fill_form_duo_reactivation(){
 	var technotes = document.getElementById("attribute53162");
 	technotes.innerText = "Instructed customer to go to duo.oregonstate.edu, had them click 'reactivate device' and walked them through the reactivation process";
 	var duosupportitem = document.getElementById("attribute74632Choice183929");
+    //It's hard to tell which one of these operations actually does what I need it to do so I did all of them at once
 	duosupportitem.value = "true";
 	//Support item is still valid but to prevent confusion I set it to be visually checked
-    	duosupportitem.checked =true;
+    duosupportitem.checked =true;
+    //call the "onclick" function for the element manually
+    var click = duosupportitem["onclick"];
+	click.call(duosupportitem);
 }
+
+/*
+****Put the button doofus
+*/
 function put_button(){
-    //await(100);
     var search = document.getElementById("search");
 
     // 1. Create the button
