@@ -39,7 +39,14 @@ function fill_form_transcripts(){
     title.value = "Transcripts Request";
     var body = document.getElementById("attribute2937");
     body.innerText = "Someone called asking about transcripts. They are a previous student and forgot their ID number. We referred them to the Office of the Registrar.";
-
+    var othersupportitem = document.getElementById("attribute38159Choice90187");
+    //It's hard to tell which one of these operations actually does what I need it to do so I did all of them at once
+    othersupportitem.value = "true";
+	//Support item is still valid but to prevent confusion I set it to be visually checked
+    othersupportitem.checked =true;
+    //call the "onclick" function for the element manually
+    var click = othersupportitem["onclick"];
+	click.call(othersupportitem);
     
 }
 
@@ -58,14 +65,7 @@ function fill_form_generic(){
     by[0].setAttribute("value", "793");
     by[0].innerText = "Phone";
 
-    var othersupportitem = document.getElementById("attribute38159Choice90187");
-    //It's hard to tell which one of these operations actually does what I need it to do so I did all of them at once
-    othersupportitem.value = "true";
-	//Support item is still valid but to prevent confusion I set it to be visually checked
-    othersupportitem.checked =true;
-    //call the "onclick" function for the element manually
-    var click = othersupportitem["onclick"];
-	click.call(othersupportitem);
+
 }
 
 function put_button(){
