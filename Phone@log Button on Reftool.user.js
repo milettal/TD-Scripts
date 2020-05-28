@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Phone@log Button on Reftool
 // @namespace    http://tampermonkey.net/
-// @version      1.2
+// @version      1.2.1
 // @description  Adds a button to create a new phone@log ticket with the appropriate fields filled out
 // @author       Luke Miletta / v1.2 by Zachary Morello
 // @match        https://tools.is.oregonstate.edu/reftool2/*
@@ -64,7 +64,7 @@ function fill_form_generic(){
 	//Support item is still valid but to prevent confusion I set it to be visually checked
     othersupportitem.checked =true;
     //call the "onclick" function for the element manually
-    var click = otherupportitem["onclick"];
+    var click = othersupportitem["onclick"];
 	click.call(othersupportitem);
 }
 
