@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name         Phone@log Button on Reftool
 // @namespace    http://tampermonkey.net/
-// @version      1.1
+// @version      1.2
 // @description  Adds a button to create a new phone@log ticket with the appropriate fields filled out
-// @author       Luke Miletta / v1.1 by Zachary Morello
+// @author       Luke Miletta / v1.2 by Zachary Morello
 // @match        https://tools.is.oregonstate.edu/reftool2/*
 // @match        https://oregonstate.teamdynamix.com/TDNext/Apps/425/Tickets/New?formId=17631&RequestorUID=de751dc3-eeb7-e611-80cd-000d3a13db68&/phonelog
 // @match        https://oregonstate.teamdynamix.com/TDNext/Apps/425/Tickets/New?formId=17631&RequestorUID=de751dc3-eeb7-e611-80cd-000d3a13db68&/transcripts
