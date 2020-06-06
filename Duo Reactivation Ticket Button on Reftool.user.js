@@ -50,7 +50,6 @@ function fill_form_duo_reactivation(){
     var status = document.getElementById("attribute1306");
     status = status.children;
     for(var i=0; i<status.length;i++){
-        if(status[i].innerText = "false" && status[i].getAttribute("value") == "17738"){
             status[i].innerText = "Closed";
             status[i].setAttribute("value", "17742"); //inspect element on the status form in a ticket to find status #
             break;
