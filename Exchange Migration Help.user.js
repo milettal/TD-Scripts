@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name         Exchange Migration Help Button
 // @namespace    http://tampermonkey.net/
-// @version      1.0
+// @version      1.1
 // @description  Adds a button to create a generic support ticket for support in helping someone log in after exchange has migrated.
 // @author       Zachary Morello
 // @match        https://tools.is.oregonstate.edu/reftool2/*
-// @include      https://tools.is.oregonstate.edu/reftool2/*
+// @include      https://tools.is.oregonstate.edud/reftool2/*
 // @match        https://oregonstate.teamdynamix.com/TDNext/Apps/425/Tickets/New?formId=17631&RequestorUID=de751dc3-eeb7-e611-80cd-000d3a13db68&/exchange-migration-help
 // @include      https://oregonstate.teamdynamix.com/TDNext/Apps/425/Tickets/New?formId=17631*
 // @grant        none
@@ -65,7 +65,8 @@ function fill_ticket_forms(){
     status = status.children;
     for(var i=0; i<status.length;i++){
         if(status[i].innerText = "Closed"){
-            status[i].setAttribute("selected",True);
+            status[i].setAttribute("selected","selected");
+            status[i].setAttribute("value", "17742");
             break;
         }
     }
