@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name         Phone@log Button on Reftool
 // @namespace    http://tampermonkey.net/
-// @version      1.0
+// @version      1.2.1
 // @description  Adds a button to create a new phone@log ticket with the appropriate fields filled out
-// @author       Luke Miletta
+// @author       Luke Miletta / v1.2 by Zachary Morello
 // @match        https://tools.is.oregonstate.edu/reftool2/*
 // @match        https://oregonstate.teamdynamix.com/TDNext/Apps/425/Tickets/New?formId=17631&RequestorUID=de751dc3-eeb7-e611-80cd-000d3a13db68&/phonelog
 // @match        https://oregonstate.teamdynamix.com/TDNext/Apps/425/Tickets/New?formId=17631&RequestorUID=de751dc3-eeb7-e611-80cd-000d3a13db68&/transcripts
@@ -12,7 +12,7 @@
 
 var URL = window.location.href;
 if(URL.indexOf("tools.is.oregonstate.edu/reftool2/") >=0){
-    window.setTimeout(put_button, 750);
+    window.setTimeout(put_button, 1500);
 }
 else if(URL.indexOf("&/phonelog") >=0){
     window.setTimeout(fill_form_generic, 500);
@@ -39,6 +39,15 @@ function fill_form_transcripts(){
     title.value = "Transcripts Request";
     var body = document.getElementById("attribute2937");
     body.innerText = "Someone called asking about transcripts. They are a previous student and forgot their ID number. We referred them to the Office of the Registrar.";
+    var othersupportitem = document.getElementById("attribute38159Choice90187");
+    //It's hard to tell which one of these operations actually does what I need it to do so I did all of them at once
+    othersupportitem.value = "true";
+	//Support item is still valid but to prevent confusion I set it to be visually checked
+    othersupportitem.checked =true;
+    //call the "onclick" function for the element manually
+    var click = othersupportitem["onclick"];
+	click.call(othersupportitem);
+    
 }
 
 function fill_form_generic(){
@@ -55,6 +64,8 @@ function fill_form_generic(){
     by = by.children;
     by[0].setAttribute("value", "793");
     by[0].innerText = "Phone";
+
+
 }
 
 function put_button(){
@@ -99,3 +110,4 @@ function put_button(){
         window.open(url, '_blank');
     }
 }
+
